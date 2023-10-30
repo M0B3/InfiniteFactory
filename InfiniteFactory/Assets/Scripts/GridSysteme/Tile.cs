@@ -8,10 +8,12 @@ public class Tile : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] private GameObject _highlight;
     private SpriteRenderer _renderer;
+    private BuildingsSpawnerHandler _spawnerHandler;
 
     private void Awake()
     {
         _renderer = GetComponent<SpriteRenderer>();
+        _spawnerHandler = FindAnyObjectByType<BuildingsSpawnerHandler>();
     }
 
     public void Init(bool isOffset)
@@ -23,11 +25,15 @@ public class Tile : MonoBehaviour
     void OnMouseEnter()
     {
         _highlight.SetActive(true);
+
+        _spawnerHandler.currentTile = this.gameObject;
     }
 
     void OnMouseExit()
     {
         _highlight.SetActive(false);
+
+        _spawnerHandler.currentTile = null;
     }
 }
     
