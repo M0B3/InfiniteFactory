@@ -1,14 +1,19 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class BuildingsSpawnerHandler : MonoBehaviour
 {
+    public static BuildingsSpawnerHandler Instance;
+
     [Header("Buildings Prefabs")]
+    [SerializeField] private GameObject spawner;
     [SerializeField] private GameObject conveyorBeltPrefab;
     [SerializeField] private GameObject welderPrefab;
     [Header("Assignables")]
     [SerializeField] private GameObject mousePosition;
+    [SerializeField] private Vector2 spawnerPos;
 
     private Camera cam;
     private Vector3 mousePos;
@@ -19,9 +24,16 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     private Welder welder;
     public GameObject currentTile;
 
+    private GridGenerator gridGenerator;
+
+    public bool play = false;
+
     private void Awake()
     {
+        Instance = this;
         cam = Camera.main;
+
+        gridGenerator = FindAnyObjectByType<GridGenerator>();
     }
     private void Update()
     {
@@ -67,7 +79,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     public void OnSelect(InputAction.CallbackContext ctx)
     {
         //Select a building that are already placed
-        if (ctx.performed)
+        if (ctx.performed && currentCollider == null)
         {
             var rayHit = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (!rayHit.collider) return;
@@ -110,6 +122,21 @@ public class BuildingsSpawnerHandler : MonoBehaviour
 
     }
 
+    public void OnDestroySelectedBuilding(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            var rayHit = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Mouse.current.position.ReadValue()));
+            if (!rayHit.collider) return;
+
+            if (rayHit.collider.CompareTag("Buildings"))
+            {
+                Destroy(rayHit.collider.gameObject);
+
+            }
+        }
+    }
+
     public void RotateCurrentBuilding(InputAction.CallbackContext ctx)
     {
         if (currentCollider != null && ctx.performed)
@@ -117,5 +144,17 @@ public class BuildingsSpawnerHandler : MonoBehaviour
             currentCollider.transform.Rotate(0, 0, -90);
         }
     }
+    public void Play()
+    {
+        play = true;
+    }
     //---------//
+
+    public void SpawnSpawner()
+    {
+        var _getTile = gridGenerator.GetTileAtPosition(spawnerPos);
+        var spawnSpawner = Instantiate(spawner, spawnerPos, Quaternion.identity);
+
+        spawnSpawner.transform.parent = _getTile.transform;
+    }
 }

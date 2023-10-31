@@ -15,6 +15,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Destroy",
+                    "type": "Button",
+                    "id": "21513355-5b6c-4d63-9298-e5ee91609db3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "RotateCurrentBuilding",
                     "type": "Button",
                     "id": "8f0a5209-2715-4a41-88ef-1ba5207c5727",
@@ -44,6 +53,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "RotateCurrentBuilding",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "88ee04a8-8077-4e55-9857-c40edac448e3",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Destroy",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
