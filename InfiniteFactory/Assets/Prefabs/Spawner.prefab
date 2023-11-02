@@ -144,3 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   redSquare: {fileID: 8772675631680203075, guid: ebc8e83ff7ea3864a8ce3a17c8e52a59, type: 3}
+  blueSquare: {fileID: 8772675631680203075, guid: 9fafbdf979ea90c4da7fc3c4fef960a1, type: 3}
+  greenSquare: {fileID: 8772675631680203075, guid: 0e7d70983c827a249b8cf1bb6392a30a, type: 3}

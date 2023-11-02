@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5993258997731635801}
   - component: {fileID: 3561736890481317871}
   - component: {fileID: -6711114755237152620}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: RedSquare
   m_TagString: Untagged
   m_Icon: {fileID: 0}

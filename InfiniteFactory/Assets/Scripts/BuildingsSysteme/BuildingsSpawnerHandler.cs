@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class BuildingsSpawnerHandler : MonoBehaviour
 {
@@ -49,7 +47,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
 
     public void SpawnConvoyerBelt()
     {
-        if (currentCollider == null)
+        if (currentCollider == null && !play)
         {
             GameObject buildingsClone = Instantiate(conveyorBeltPrefab, mousePos, Quaternion.identity);
             buildingsClone.transform.parent = mousePosition.transform;
@@ -63,12 +61,12 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     }
     public void SpawnWelder()
     {
-        if (currentCollider == null)
+        if (currentCollider == null && play)
         {
             GameObject buildingsClone = Instantiate(welderPrefab, mousePos, Quaternion.identity);
             buildingsClone.transform.parent = mousePosition.transform;
 
-            //Dissable collider to avoid on mouse over glitch
+            //Disable collider to avoid on mouse over glitch
             currentCollider = buildingsClone.GetComponent<Collider2D>();
             currentCollider.enabled = false;
 
@@ -80,7 +78,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     public void OnSelect(InputAction.CallbackContext ctx)
     {
         //Select a building that are already placed
-        if (ctx.performed && currentCollider == null)
+        if (ctx.performed && currentCollider == null && !play)
         {
             var rayHit = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (!rayHit.collider) return;
@@ -90,6 +88,9 @@ public class BuildingsSpawnerHandler : MonoBehaviour
                 rayHit.collider.transform.parent = mousePosition.transform;
                 rayHit.collider.enabled = false;
                 currentCollider = rayHit.collider;
+
+                conveyorBelt = rayHit.collider.GetComponent<ConveyorBelt>();
+                welder = rayHit.collider.GetComponent<Welder>();
             }
         }
 
@@ -99,13 +100,12 @@ public class BuildingsSpawnerHandler : MonoBehaviour
             currentCollider.transform.parent = currentTile.transform;
 
             Vector3 realPos = currentTile.transform.localPosition;
-            currentCollider.transform.position = realPos;
+            currentCollider.transform.position = new Vector3(realPos.x, realPos.y, -0.1f);
 
             //Unselect current building
             currentCollider.enabled = true;
             currentCollider = null;
 
-            conveyorBelt.isPlaced = true;
             conveyorBelt = null;
         }
         //Place Welder
@@ -128,7 +128,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
 
     public void OnDestroySelectedBuilding(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && currentCollider == null)
+        if (ctx.performed && currentCollider == null && !play)
         {
             var rayHit = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (!rayHit.collider) return;
