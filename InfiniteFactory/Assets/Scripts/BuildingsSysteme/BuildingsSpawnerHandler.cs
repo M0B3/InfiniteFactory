@@ -27,6 +27,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     private GridGenerator gridGenerator;
 
     public bool play = false;
+    public bool stop = false;
 
     private void Awake()
     {
@@ -105,6 +106,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
             currentCollider = null;
 
             conveyorBelt.isPlaced = true;
+            conveyorBelt = null;
         }
         //Place Welder
         if (ctx.performed && currentCollider != null && currentTile != null && welder != null)
@@ -117,6 +119,8 @@ public class BuildingsSpawnerHandler : MonoBehaviour
             //Unselect current building
             currentCollider.enabled = true;
             currentCollider = null;
+
+            welder = null;
         }
 
 
@@ -124,7 +128,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
 
     public void OnDestroySelectedBuilding(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed)
+        if (ctx.performed && currentCollider == null)
         {
             var rayHit = Physics2D.GetRayIntersection(cam.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (!rayHit.collider) return;
@@ -147,6 +151,12 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     public void Play()
     {
         play = true;
+        stop = false;
+    }
+    public void Stop()
+    {
+        stop = true;
+        play = false;
     }
     //---------//
 
