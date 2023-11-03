@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Buildings
+  - Manufactured
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - 
   - Square
-  - 
-  - 
+  - Manufactured
+  - FirstManufacture
   - 
   - 
   - 

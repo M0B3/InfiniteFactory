@@ -7,6 +7,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
 
     [Header("Buildings Prefabs")]
     [SerializeField] private GameObject spawner;
+    [SerializeField] private GameObject depot;
     [SerializeField] private GameObject conveyorBeltPrefab;
     [SerializeField] private GameObject welderPrefab;
     [Header("Assignables")]
@@ -61,7 +62,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     }
     public void SpawnWelder()
     {
-        if (currentCollider == null && play)
+        if (currentCollider == null && !play)
         {
             GameObject buildingsClone = Instantiate(welderPrefab, mousePos, Quaternion.identity);
             buildingsClone.transform.parent = mousePosition.transform;
@@ -166,5 +167,14 @@ public class BuildingsSpawnerHandler : MonoBehaviour
         var spawnSpawner = Instantiate(spawner, spawnerPos, Quaternion.identity);
 
         spawnSpawner.transform.parent = _getTile.transform;
+
+        GameManager.Instance.ChangeState(GameManager.GameState.GenerateDepotAndExit);
+    }
+    public void SpawnDepot()
+    {
+        var _getTile = gridGenerator.GetTileAtPosition(new Vector2(5, 3));
+        var spawnDepot = Instantiate(depot, new Vector2(5, 3), Quaternion.identity);
+
+        spawnDepot.transform.parent = _getTile.transform;
     }
 }

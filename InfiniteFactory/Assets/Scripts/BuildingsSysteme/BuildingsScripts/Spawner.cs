@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     private float currentCounter = 0.0f;
 
     private BuildingsSpawnerHandler bsh;
-    private List<GameObject> blocksList = new List<GameObject>();
+    public List<GameObject> blocksList = new List<GameObject>();
 
     private void Awake()
     {

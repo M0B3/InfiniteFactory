@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.GenerateSpawnerAndExit:
                 BuildingsSpawnerHandler.Instance.SpawnSpawner();
+                break;            
+            case GameState.GenerateDepotAndExit:
+                BuildingsSpawnerHandler.Instance.SpawnDepot();
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         GenerateGrid = 0,
-        GenerateSpawnerAndExit = 1
+        GenerateSpawnerAndExit = 1,
+        GenerateDepotAndExit = 2
     }
 }
