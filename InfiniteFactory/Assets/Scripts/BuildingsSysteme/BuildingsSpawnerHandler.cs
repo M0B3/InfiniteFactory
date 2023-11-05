@@ -13,6 +13,7 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     [Header("Assignables")]
     [SerializeField] private GameObject mousePosition;
     [SerializeField] private Vector2 spawnerPos;
+    public GameObject winMenu;
 
     private Camera cam;
     private Vector3 mousePos;
@@ -158,6 +159,10 @@ public class BuildingsSpawnerHandler : MonoBehaviour
     {
         stop = true;
         play = false;
+    }
+    public void QuitGames()
+    {
+        Application.Quit();
     }
     //---------//
 

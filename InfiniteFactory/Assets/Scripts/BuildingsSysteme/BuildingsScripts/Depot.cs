@@ -3,6 +3,7 @@ using UnityEngine;
 public class Depot : MonoBehaviour
 {
     private Spawner spawner;
+    private BuildingsSpawnerHandler bsh;
 
     [Header("Win Condition")]
     [SerializeField] private int maxManufactureToWin = 5;
@@ -11,13 +12,15 @@ public class Depot : MonoBehaviour
 
     private void Awake()
     {
+        bsh = FindAnyObjectByType<BuildingsSpawnerHandler>();
         spawner = FindAnyObjectByType<Spawner>();
+        bsh.winMenu.SetActive(false);
     }
     private void Update()
     {
         if (currentManufacture >= maxManufactureToWin && !win)
         {
-            print("Win");
+            bsh.winMenu.SetActive(true);
             win = true;
         }
     }
@@ -33,9 +36,9 @@ public class Depot : MonoBehaviour
         }
         else
         {
-            print("not the good sort of box");
             Destroy(collision.gameObject);
             spawner.blocksList.Remove(collision.gameObject);
         }
     }
+
 }
